@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import shortid from 'shortid';
 import s from './ContactForm.module.css';
 
@@ -67,4 +68,4 @@ function ContactForm ({ onSubmit }) {
     );
 };
 
-export default ContactForm;
+export default connect()(ContactForm);
