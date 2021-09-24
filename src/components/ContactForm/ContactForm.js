@@ -1,33 +1,46 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 import shortid from 'shortid';
 import s from './ContactForm.module.css';
 
-function ContactForm ({ onSubmit }) {
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+function ContactForm ({ onSubmit, name, number, onReset, onHandleChangeName, onHandleChangeNumber }) {
+    // const [name, setName] = useState('');
+    // const [number, setNumber] = useState('');
 
     const nameInputId = shortid.generate();
     const numberInputId = shortid.generate();
 
-    const handleChange = (evt) => {
-        const { value, name } = evt.currentTarget;
-        if(name === 'name') {
-            setName(value);
-        } if (name === 'number') {
-            setNumber(value)
-        }
+    // const handleChange = (evt) => {
+    //     const { value, name } = evt.currentTarget;
+    //     if(name === 'name') {
+    //         console.log('change name');
+    //         onHandleChangeName(value);
+    //     } if (name === 'number') {
+    //         console.log('change number');
+    //         onHandleChangeNumber(value);
+    //     }
+    // };
+
+    const handleChangeName = (evt) => {
+        const { value } = evt.currentTarget;
+                    console.log('change name');
+                    console.log(value);
+                    onHandleChangeName(value);
+    };
+
+    const handleChangeNumber = (evt) => {
+        const { value } = evt.currentTarget;
+                    console.log('change number');
+                    console.log(value);
+                    onHandleChangeNumber(value);
     };
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        // console.log(name, number);
         onSubmit(name, number);
-        reset();
-    };
-
-    const reset = () => {
-        setName('');
-        setNumber('');
+        onReset();
     };
 
     return (
@@ -42,7 +55,7 @@ function ContactForm ({ onSubmit }) {
                 pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                 title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
                 required
-                onChange={handleChange}
+                onChange={handleChangeName}
             />
 
             <label className={s.label} htmlFor={numberInputId}>Number</label>
@@ -55,7 +68,7 @@ function ContactForm ({ onSubmit }) {
                 pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                 title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
                 required
-                onChange={handleChange}
+                onChange={handleChangeNumber}
             />
                 
             <button
@@ -68,4 +81,19 @@ function ContactForm ({ onSubmit }) {
     );
 };
 
-export default connect()(ContactForm);
+const mapStateToProps = state => {
+    return {
+        name: state.contactName,
+        number: state.contactNumber,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onReset: () => dispatch(actions.reset()),
+        onHandleChangeName: (value) => dispatch(actions.handleChangeName(value)),
+        onHandleChangeNumber: (value) => dispatch(actions.handleChangeNumber(value)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

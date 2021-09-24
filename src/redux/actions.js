@@ -1,9 +1,14 @@
-export const handleChange = value => ({
-    type: 'contactForm/Change',
+export const handleChangeName = value => ({
+    type: 'contactForm/ChangeNumber',
     payload: value,
 });
 
-export const reset = (value) => ({
-    type: 'contactForm/Reset',
+export const handleChangeNumber = value => ({
+    type: 'contactForm/ChangeName',
     payload: value,
+});
+
+export const reset = () => ({
+    type: 'contactForm/Reset',
+    // payload: value,
 });
