@@ -1,20 +1,15 @@
-import { createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import logger from 'redux-logger'
 import formReducer from './contactForm/form-reducer';
 
-// const initialState = {
-//     contactFrom: {
-//         contactName: 'Yaroslava', 
-//         contactNumber: '8884758599',
-//     },
-// };
+const middleware = [...getDefaultMiddleware(), logger];
 
-
-
-const rootReducer = combineReducers({
-    contacts: formReducer,
+const store = configureStore({
+    reducer: {
+        contacts: formReducer,
+    },
+    middleware,
+    devTools: process.env.NODE_ENV === 'development',
 });
-
-const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;
