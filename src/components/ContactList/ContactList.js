@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import * as formActions from '../../redux/contactForm/form-actions';
 import s from './ContactList.module.css';
 
-import useLocalStorage from '../../hooks/useLocalStorage';
-
-const ContactList = ({contacts, onDeleteContact }) => {
-    // const values = JSON.parse(window.localStorage.getItem(contacts)) ?? [];
-    // addContactsFromLS(values);
-
-return (
+const ContactList = ({contacts, onDeleteContact }) => (
     <ul className={s.list}>
         {contacts.map(({ id, name, number }) => (
             <li key={id} className={s.item}>
@@ -19,7 +13,7 @@ return (
             </li>
         ))}
     </ul>
-)};
+);
 
 
 const getVisibleContacts = (allContacts, filter) => {
@@ -33,7 +27,6 @@ const mapStateToProps = ({ contacts: { items, filter } }) => ({
 
 const mapDispatchToProps = dispatch => ({
         onDeleteContact: id => dispatch(formActions.deleteContact(id)),
-        // addContactsFromLS: value => dispatch(formActions.addContactFromLocalStorage(value)),
 });
 
 ContactList.propTypes = {
